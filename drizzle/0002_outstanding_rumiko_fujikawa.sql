@@ -1,0 +1,1 @@
+ALTER TABLE "ap_orders" ADD COLUMN "tracking_id" varchar(255);

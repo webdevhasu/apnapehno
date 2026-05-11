@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #bb8477;
+  --color-primary-dark: #a16b5f;
+  --color-primary-light: #f5eae8;
+  --color-accent: #5d3a39;
+  --color-gold: #c9a96e;
+  --color-bg: #fdfaf8;
+  --color-bg-card: #ffffff;
+  --color-text: #4a302d;
+  --color-text-light: #8c736e;
+  --color-border: #ebdcd9;
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+}
+
+@layer base {
+  html {
+    font-size: 14px;
+  }
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-white px-6 py-2.5 rounded-xl font-bold
+      transition-all duration-500 hover:bg-accent hover:shadow-2xl hover:shadow-accent/20
+      active:scale-95 text-[9px] uppercase tracking-widest;
+  }
+  .btn-outline {
+    @apply border-2 border-primary text-primary px-6 py-2.5 rounded-xl
+      font-bold transition-all duration-500 hover:bg-primary
+      hover:text-white text-[9px] uppercase tracking-widest;
+  }
+  .card-hover {
+    @apply transition-all duration-700 hover:shadow-[0_15px_40px_rgba(187,132,119,0.1)] hover:-translate-y-1.5;
+  }
+  .badge-sale {
+    @apply bg-red-500 text-white text-[8px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter;
+  }
+  .badge-new {
+    @apply bg-accent text-white text-[8px] font-black px-2 py-0.5 rounded-md uppercase tracking-tighter;
+  }
+  .glass {
+    @apply bg-white/60 backdrop-blur-xl border border-white/20 shadow-xl shadow-accent/5;
+  }
+  .section-padding {
+    @apply py-8 md:py-12;
+  }
+}
+
+/* Custom Utilities */
+.text-balance { text-wrap: balance; }
+.text-shadow-sm { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-bg); }
+::-webkit-scrollbar-thumb { 
+  background: var(--color-primary); 
+  border-radius: 10px;
+  border: 2px solid var(--color-bg);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+.animate-fade-in-up { animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
