@@ -1,6 +1,6 @@
 "use client";
 
-import { X, Plus, Minus, Trash2 } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
