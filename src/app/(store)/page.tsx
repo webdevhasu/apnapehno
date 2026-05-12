@@ -22,48 +22,58 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-b from-primary-light/30 to-bg overflow-hidden pt-8 md:pt-12">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-8 md:pt-12 bg-black">
+        {/* Animated Background Elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[150px] rounded-full -translate-y-1/2 translate-x-1/2 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-primary/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2" />
+        
+        <div className="max-w-7xl mx-auto px-4 w-full flex flex-col md:flex-row items-center gap-16 relative z-10">
           {/* Text Content */}
-          <div className="flex-1 text-center md:text-left py-12 md:py-20 animate-fade-in-up z-10">
-            <p className="text-primary font-bold tracking-[0.2em] text-sm mb-4 uppercase">Apna Pehnoo Exclusive</p>
-            <h2 className="font-heading text-5xl md:text-7xl lg:text-[5rem] font-bold text-accent leading-[1.1] mb-6">
-              Discover Your<br />Signature Style
+          <div className="flex-1 text-center md:text-left py-12 md:py-20 animate-fade-in-up">
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 mb-8">
+              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+              <p className="text-primary font-black tracking-[0.3em] text-[10px] uppercase">New Collection 2026</p>
+            </div>
+            <h2 className="font-heading text-6xl md:text-8xl lg:text-9xl font-black text-white leading-[0.9] mb-8 drop-shadow-2xl">
+              Elegance <br /><span className="text-primary italic">Redefined.</span>
             </h2>
-            <p className="text-text-light text-lg mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
-              Elevate your wardrobe with our premium collection of meticulously crafted, elegant designs. Experience the perfect blend of tradition and modern fashion.
+            <p className="text-text-light text-lg md:text-xl mb-12 max-w-xl mx-auto md:mx-0 leading-relaxed font-medium">
+              Experience the pinnacle of luxury with our curated collection of premium Pakistani couture. Meticulously crafted for the modern woman.
             </p>
-            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-              <Link href="/shop" className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-base shadow-xl shadow-primary/20 hover:-translate-y-1 transition-all w-full sm:w-auto justify-center">
-                Explore Collection
+            <div className="flex flex-col sm:flex-row items-center gap-6 justify-center md:justify-start">
+              <Link href="/shop" className="btn-primary inline-flex items-center gap-4 px-10 py-5 text-sm shadow-[0_0_50px_rgba(212,175,55,0.3)] hover:-translate-y-2 transition-all w-full sm:w-auto justify-center group">
+                Shop Collection <span className="group-hover:translate-x-2 transition-transform">→</span>
               </Link>
-              <Link href="/new-arrivals" className="inline-flex items-center gap-2 px-8 py-4 text-base font-medium text-accent hover:text-primary transition-colors w-full sm:w-auto justify-center">
-                View New Arrivals →
+              <Link href="/new-arrivals" className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-white hover:text-primary transition-all w-full sm:w-auto justify-center border-b-2 border-primary/20 hover:border-primary pb-1">
+                View Arrivals
               </Link>
             </div>
           </div>
           
           {/* Image Content */}
-          <div className="flex-1 w-full relative min-h-[500px] md:min-h-[650px] rounded-t-[3rem] md:rounded-t-[5rem] overflow-hidden shadow-2xl border-4 border-white/50 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-             <Image src="/hero.png" alt="Apna Pehnoo Collection" fill className="object-cover object-top hover:scale-105 transition-transform duration-700" priority sizes="(max-width: 768px) 100vw, 50vw" />
+          <div className="flex-1 w-full relative aspect-[4/5] md:aspect-[3/4] rounded-[2rem] md:rounded-[4rem] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)] border border-white/10 animate-fade-in-up group" style={{ animationDelay: '0.2s' }}>
+             <Image src="/hero.png" alt="Apna Pehnoo Collection" fill className="object-cover object-top group-hover:scale-110 transition-transform duration-[2000ms]" priority sizes="(max-width: 768px) 100vw, 50vw" />
+             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
           </div>
         </div>
       </section>
 
       {/* Features Bar */}
-      <section className="bg-white border-y border-border">
-        <div className="max-w-7xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+      <section className="bg-bg-card border-y border-white/5 relative z-20 -mt-10 mx-4 rounded-3xl shadow-2xl">
+        <div className="max-w-7xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
           {[
-            { icon: Truck, title: "Cash on Delivery", desc: "All Over Pakistan" },
-            { icon: Shield, title: "Premium Quality", desc: "Best Fabrics" },
-            { icon: RotateCcw, title: "Easy Returns", desc: "7 Days Return Policy" },
-            { icon: Headphones, title: "24/7 Support", desc: "We are Here to Help" },
+            { icon: Truck, title: "Swift Delivery", desc: "Across Pakistan" },
+            { icon: Shield, title: "Premium Fabric", desc: "100% Guaranteed" },
+            { icon: RotateCcw, title: "Return Policy", desc: "7 Days Exchange" },
+            { icon: Headphones, title: "VIP Support", desc: "Always Available" },
           ].map((f, i) => (
-            <div key={i} className="flex items-center gap-3 justify-center">
-              <f.icon size={28} className="text-primary" />
+            <div key={i} className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left group">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-black transition-all duration-500">
+                <f.icon size={24} strokeWidth={1.5} />
+              </div>
               <div>
-                <p className="text-sm font-semibold">{f.title}</p>
-                <p className="text-xs text-text-light">{f.desc}</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-white mb-0.5">{f.title}</p>
+                <p className="text-[9px] text-text-light font-bold">{f.desc}</p>
               </div>
             </div>
           ))}
@@ -72,19 +82,25 @@ export default async function HomePage() {
 
       {/* Categories */}
       {allCategories.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 py-10 md:py-14">
-          <h2 className="font-heading text-3xl md:text-5xl font-bold text-center mb-12 text-accent">Shop By Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <section className="max-w-7xl mx-auto px-4 section-padding">
+          <div className="text-center mb-20">
+            <h2 className="font-heading text-4xl md:text-6xl font-black text-white mb-4 tracking-tight">Curated Categories</h2>
+            <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-12">
             {allCategories.map((cat) => (
               <Link key={cat.id} href={`/category/${cat.slug}`} className="group text-center">
-                <div className="aspect-square mx-auto rounded-full bg-primary-light overflow-hidden border-4 border-white shadow-lg group-hover:border-primary group-hover:shadow-primary/20 transition-all duration-500">
+                <div className="aspect-square mx-auto rounded-full bg-white/5 overflow-hidden border-2 border-white/5 group-hover:border-primary group-hover:shadow-[0_0_40px_rgba(212,175,55,0.2)] transition-all duration-700 relative">
                   {cat.image ? (
-                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                    <img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-125 transition-transform duration-1000" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-primary font-heading text-2xl bg-gradient-to-br from-primary-light to-white">{cat.name[0]}</div>
+                    <div className="w-full h-full flex items-center justify-center text-primary font-heading text-3xl bg-neutral-900">{cat.name[0]}</div>
                   )}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <span className="text-[10px] font-black text-white tracking-[0.2em] uppercase">Explore</span>
+                  </div>
                 </div>
-                <p className="text-sm font-bold mt-4 group-hover:text-primary transition-colors tracking-wide uppercase">{cat.name}</p>
+                <p className="text-[10px] font-black mt-6 group-hover:text-primary transition-all tracking-[0.3em] uppercase text-text-light">{cat.name}</p>
               </Link>
             ))}
           </div>
@@ -92,42 +108,45 @@ export default async function HomePage() {
       )}
 
       {/* New Arrivals */}
-      <section className="max-w-7xl mx-auto px-4 py-10 md:py-16 bg-white/50 rounded-[3rem] my-4 border border-primary/5 shadow-sm">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-4">
-          <div className="text-center md:text-left">
-            <h2 className="font-heading text-3xl md:text-5xl font-bold text-accent mb-2">New Arrivals</h2>
-            <p className="text-text-light text-sm">Discover our latest additions to your wardrobe</p>
+      <section className="bg-bg-card/50 py-20 md:py-32 border-y border-white/5">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-end justify-between mb-20 gap-8">
+            <div className="max-w-xl text-center md:text-left">
+              <p className="text-primary font-black tracking-[0.4em] text-[10px] uppercase mb-4">Latest Couture</p>
+              <h2 className="font-heading text-4xl md:text-6xl font-black text-white leading-tight">Freshly Minted <br />Designs</h2>
+            </div>
+            <Link href="/new-arrivals" className="h-14 px-8 rounded-2xl border-2 border-primary text-primary font-black hover:bg-primary hover:text-black transition-all flex items-center justify-center text-xs uppercase tracking-widest">
+              View All Arrivals
+            </Link>
           </div>
-          <Link href="/new-arrivals" className="px-6 py-2 rounded-full border-2 border-primary text-primary font-bold hover:bg-primary hover:text-white transition-all text-sm">View All Collection</Link>
+          
+          {newProducts.length > 0 ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-10">
+              {newProducts.map((p) => (
+                <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug}
+                  price={p.price} salePrice={p.salePrice} images={p.images || []}
+                  isNew={p.isNew ?? false} isSale={p.isSale ?? false} pieces={p.pieces} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-32 rounded-[3rem] border-2 border-dashed border-white/10 bg-black/20">
+              <p className="text-text-light text-lg font-medium mb-8">Our artisans are crafting new masterpieces. <br />Returning very soon.</p>
+              <Link href="/admin" className="btn-outline">Visit Dashboard →</Link>
+            </div>
+          )}
         </div>
-        {newProducts.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
-            {newProducts.map((p) => (
-              <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug}
-                price={p.price} salePrice={p.salePrice} images={p.images || []}
-                isNew={p.isNew ?? false} isSale={p.isSale ?? false} pieces={p.pieces} />
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-border">
-            <p className="text-text-light mb-6">Our new collection is arriving soon. Stay tuned!</p>
-            <Link href="/admin" className="btn-outline">Visit Dashboard →</Link>
-          </div>
-        )}
       </section>
 
       {/* Featured Products */}
       {featuredProducts.length > 0 && (
-        <section className="bg-white py-12 md:py-20">
+        <section className="py-24 md:py-32">
           <div className="max-w-7xl mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-12 gap-4 text-center md:text-left">
-              <div>
-                <h2 className="font-heading text-3xl md:text-5xl font-bold text-accent mb-2">Featured Highlights</h2>
-                <p className="text-text-light text-sm">Handpicked pieces from our exclusive collection</p>
-              </div>
-              <Link href="/shop" className="text-sm text-primary font-bold hover:underline tracking-widest uppercase">Explore All Products →</Link>
+            <div className="text-center mb-24">
+              <p className="text-primary font-black tracking-[0.4em] text-[10px] uppercase mb-4">Editor's Choice</p>
+              <h2 className="font-heading text-4xl md:text-6xl font-black text-white mb-6">Masterpieces</h2>
+              <div className="w-16 h-1 bg-primary mx-auto" />
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
               {featuredProducts.map((p) => (
                 <ProductCard key={p.id} id={p.id} name={p.name} slug={p.slug}
                   price={p.price} salePrice={p.salePrice} images={p.images || []}
@@ -139,26 +158,26 @@ export default async function HomePage() {
       )}
 
       {/* CTA Banner */}
-      <section className="max-w-7xl mx-auto px-4 py-10 md:py-16">
-        <div className="bg-accent rounded-[3rem] p-10 md:p-24 text-center text-white relative overflow-hidden group shadow-2xl">
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/pinstripe.png')] opacity-10"></div>
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full translate-y-1/2 -translate-x-1/2"></div>
+      <section className="max-w-7xl mx-auto px-4 py-20">
+        <div className="bg-gradient-to-br from-neutral-900 to-black rounded-[3rem] md:rounded-[5rem] p-12 md:p-32 text-center relative overflow-hidden border border-white/10 shadow-[0_0_100px_rgba(0,0,0,0.5)]">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/pinstripe.png')] opacity-5" />
+          <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
           
           <div className="relative z-10">
-            <h2 className="font-heading text-4xl md:text-6xl font-bold mb-6">Enjoy 10% Off Your First Order</h2>
-            <p className="text-white/70 text-lg mb-10 max-w-xl mx-auto leading-relaxed">Join our exclusive fashion community and stay updated with the latest trends, private sales, and special collections.</p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/shop" className="bg-white text-accent px-10 py-4 rounded-full font-bold hover:shadow-2xl transition-all hover:-translate-y-1">
-                Shop the Collection
+            <h2 className="font-heading text-5xl md:text-8xl font-black text-white mb-8 tracking-tight">Join The <br /><span className="text-primary italic">Exclusive.</span></h2>
+            <p className="text-text-light text-lg md:text-xl mb-14 max-w-2xl mx-auto leading-relaxed">Subscribe to receive early access to our limited drops, private sales, and fashion insights.</p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/shop" className="bg-white text-black px-12 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-xs hover:bg-primary transition-all hover:scale-105 shadow-2xl">
+                Enter The Shop
               </Link>
-              <Link href="/contact" className="border border-white/30 px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-all">
-                Learn More
+              <Link href="/contact" className="px-12 py-5 rounded-2xl border-2 border-white/20 font-black uppercase tracking-[0.2em] text-xs hover:bg-white/10 transition-all text-white">
+                Get In Touch
               </Link>
             </div>
           </div>
         </div>
       </section>
+
     </>
   );
 }

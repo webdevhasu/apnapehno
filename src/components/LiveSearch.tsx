@@ -63,42 +63,42 @@ export default function LiveSearch() {
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.length >= 2 && setIsOpen(true)}
           placeholder="Search for designs..."
-          className="w-full bg-bg/50 border border-primary/10 rounded-2xl py-2.5 pl-11 pr-10 text-sm focus:outline-none focus:border-primary focus:bg-white transition-all shadow-inner group-hover:border-primary/30"
+          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-10 text-sm focus:outline-none focus:border-primary focus:bg-white/10 transition-all shadow-2xl group-hover:border-white/20 text-white placeholder:text-white/30 font-medium"
         />
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-light group-focus-within:text-primary transition-colors" size={18} />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-primary transition-colors" size={20} />
         {loading ? (
           <Loader2 className="absolute right-4 top-1/2 -translate-y-1/2 text-primary animate-spin" size={18} />
         ) : query && (
-          <button onClick={() => { setQuery(""); setResults([]); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-text-light hover:text-primary">
-            <X size={16} />
+          <button onClick={() => { setQuery(""); setResults([]); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-primary transition-colors">
+            <X size={18} />
           </button>
         )}
       </div>
 
       {/* Dropdown Results */}
       {isOpen && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-primary/5 overflow-hidden z-[60] animate-fade-in-up origin-top">
-          <div className="max-h-[400px] overflow-y-auto custom-scrollbar">
+        <div className="absolute top-full left-0 right-0 mt-4 bg-bg-card/95 backdrop-blur-2xl rounded-3xl shadow-[0_30px_100px_rgba(0,0,0,0.8)] border border-white/10 overflow-hidden z-[60] animate-fade-in-up origin-top">
+          <div className="max-h-[450px] overflow-y-auto custom-scrollbar">
             {results.map((product) => (
               <button
                 key={product.id}
                 onClick={() => handleSelect(product.slug)}
-                className="w-full p-4 flex gap-4 hover:bg-bg transition-colors text-left group/item border-b border-primary/5 last:border-0"
+                className="w-full p-5 flex gap-5 hover:bg-white/5 transition-all text-left group/item border-b border-white/5 last:border-0"
               >
-                <div className="w-16 h-20 rounded-xl overflow-hidden bg-primary-light flex-shrink-0 relative">
+                <div className="w-16 h-20 rounded-xl overflow-hidden bg-white/5 flex-shrink-0 relative border border-white/5">
                   {product.images?.[0] && (
-                    <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover/item:scale-110 transition-transform duration-500" />
+                    <Image src={product.images[0]} alt={product.name} fill className="object-cover group-hover/item:scale-125 transition-transform duration-1000" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-bold text-accent truncate uppercase tracking-tight">{product.name}</h4>
-                  <p className="text-xs text-text-light mt-1 line-clamp-1">{product.categoryName}</p>
-                  <div className="flex items-center gap-2 mt-2">
+                  <h4 className="text-[11px] font-black text-white truncate uppercase tracking-widest group-hover/item:text-primary transition-colors">{product.name}</h4>
+                  <p className="text-[9px] text-text-light font-bold uppercase tracking-widest mt-1 opacity-60">{product.categoryName}</p>
+                  <div className="flex items-center gap-3 mt-3">
                     <span className="text-sm font-black text-primary">
                       {formatPrice(parseFloat(product.salePrice || product.price))}
                     </span>
                     {product.salePrice && (
-                      <span className="text-[10px] text-text-light line-through">
+                      <span className="text-[10px] text-text-light/40 line-through">
                         {formatPrice(parseFloat(product.price))}
                       </span>
                     )}
@@ -107,10 +107,10 @@ export default function LiveSearch() {
               </button>
             ))}
           </div>
-          <div className="p-3 bg-bg border-t border-primary/5 text-center">
+          <div className="p-4 bg-black/40 border-t border-white/5 text-center">
             <button 
               onClick={() => { router.push(`/shop?q=${query}`); setIsOpen(false); }}
-              className="text-[10px] font-black uppercase tracking-widest text-primary hover:text-accent transition-colors"
+              className="text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:text-white transition-all"
             >
               See all results for "{query}"
             </button>
@@ -119,11 +119,12 @@ export default function LiveSearch() {
       )}
 
       {isOpen && query.length >= 2 && !loading && results.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-primary/5 p-8 text-center z-[60] animate-fade-in-up origin-top">
-          <p className="text-sm text-text-light font-medium">No results found for "{query}"</p>
-          <p className="text-xs text-primary mt-2 font-bold uppercase tracking-widest cursor-pointer hover:underline" onClick={() => setIsOpen(false)}>Try another keyword</p>
+        <div className="absolute top-full left-0 right-0 mt-4 bg-bg-card/95 backdrop-blur-2xl rounded-3xl shadow-2xl border border-white/10 p-10 text-center z-[60] animate-fade-in-up origin-top">
+          <p className="text-sm text-text-light font-bold uppercase tracking-widest opacity-60">No results for "{query}"</p>
+          <p className="text-[10px] text-primary mt-4 font-black uppercase tracking-[0.3em] cursor-pointer hover:text-white transition-all" onClick={() => setIsOpen(false)}>Try another keyword</p>
         </div>
       )}
+
     </div>
   );
 }

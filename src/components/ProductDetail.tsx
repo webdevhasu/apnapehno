@@ -85,19 +85,19 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Images */}
         <div className="space-y-4">
-          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-primary-light">
+          <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-bg-card border border-border">
             {images[selectedImage] ? (
-              <Image src={images[selectedImage]} alt={product.name} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
+              <Image src={images[selectedImage]} alt={product.name} fill className="object-cover animate-fade-in" sizes="(max-width:768px) 100vw, 50vw" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-text-light">No Image</div>
+              <div className="w-full h-full flex items-center justify-center text-text-light/30">No Image</div>
             )}
           </div>
           {images.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto">
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
               {images.map((img, i) => (
                 <button key={i} onClick={() => setSelectedImage(i)}
-                  className={`w-16 h-20 rounded-lg overflow-hidden border-2 flex-shrink-0 ${i === selectedImage ? "border-primary" : "border-transparent"}`}>
-                  <Image src={img} alt="" width={64} height={80} className="object-cover w-full h-full" />
+                  className={`w-20 h-24 rounded-xl overflow-hidden border-2 flex-shrink-0 transition-all duration-300 ${i === selectedImage ? "border-primary scale-105 shadow-lg shadow-primary/20" : "border-border hover:border-primary/50 opacity-70 hover:opacity-100"}`}>
+                  <Image src={img} alt="" width={80} height={96} className="object-cover w-full h-full" />
                 </button>
               ))}
             </div>
@@ -105,51 +105,66 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         </div>
 
         {/* Details */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div>
-            <div className="flex gap-2 mb-2">
-              {product.isNew && <span className="badge-new">NEW</span>}
-              {product.isSale && <span className="badge-sale">SALE</span>}
+            <div className="flex gap-2 mb-4">
+              {product.isNew && <span className="badge-new">NEW COLLECTION</span>}
+              {product.isSale && <span className="badge-sale">LIMITED OFFER</span>}
             </div>
-            <h1 className="font-heading text-lg md:text-xl font-bold">{product.name}</h1>
-            {product.pieces && <p className="text-[10px] text-text-light mt-0.5">{product.pieces}</p>}
+            <h1 className="font-heading text-3xl md:text-4xl font-black text-text tracking-tight mb-2">{product.name}</h1>
+            {product.pieces && <p className="text-xs text-primary font-bold uppercase tracking-[0.2em]">{product.pieces}</p>}
           </div>
 
-          <div className="flex items-baseline gap-3">
-            <span className="text-lg font-bold text-primary">{formatPrice(price)}</span>
-            {product.isSale && product.salePrice && (
-              <span className="text-base text-text-light line-through">{formatPrice(parseFloat(product.price))}</span>
-            )}
+          <div className="flex items-center gap-4 py-4 border-y border-border">
+            <div className="flex flex-col">
+              <span className="text-sm text-text-light uppercase tracking-widest mb-1">Price</span>
+              <div className="flex items-baseline gap-3">
+                <span className="text-3xl font-black text-primary drop-shadow-[0_0_15px_rgba(212,175,55,0.2)]">{formatPrice(price)}</span>
+                {product.isSale && product.salePrice && (
+                  <span className="text-lg text-text-light/50 line-through font-medium">{formatPrice(parseFloat(product.price))}</span>
+                )}
+              </div>
+            </div>
             <div className="ml-auto">
               {product.stockQuantity > 0 ? (
-                <span className="text-[10px] bg-green-50 text-green-600 px-2 py-1 rounded-full font-bold uppercase tracking-wider border border-green-100">
-                  In Stock ({product.stockQuantity})
+                <span className="text-[10px] bg-green-500/10 text-green-400 px-3 py-1.5 rounded-full font-black uppercase tracking-widest border border-green-500/20">
+                  ● In Stock
                 </span>
               ) : (
-                <span className="text-[10px] bg-red-50 text-red-600 px-2 py-1 rounded-full font-bold uppercase tracking-wider border border-red-100">
-                  Out of Stock
+                <span className="text-[10px] bg-red-500/10 text-red-400 px-3 py-1.5 rounded-full font-black uppercase tracking-widest border border-red-500/20">
+                  ● Out of Stock
                 </span>
               )}
             </div>
           </div>
 
-          {product.description && <p className="text-sm text-text-light leading-relaxed">{product.description}</p>}
-          {product.fabric && <p className="text-sm"><strong>Fabric:</strong> {product.fabric}</p>}
+          {product.description && (
+            <div className="prose prose-invert prose-sm">
+              <p className="text-text-light leading-relaxed text-base">{product.description}</p>
+            </div>
+          )}
+          
+          {product.fabric && (
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-text-light">Fabric:</span>
+              <span className="font-bold text-text">{product.fabric}</span>
+            </div>
+          )}
 
           {/* Sizes */}
           {product.sizes && product.sizes.length > 0 && (
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-sm font-bold text-accent uppercase tracking-wider">Select Size</p>
-                {!selectedSize && <span className="text-[10px] font-black text-primary animate-pulse">REQUIRED *</span>}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <p className="text-xs font-black text-text-light uppercase tracking-[0.2em]">Select Size</p>
+                {!selectedSize && <span className="text-[10px] font-black text-primary animate-pulse tracking-widest">REQUIRED *</span>}
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-3 flex-wrap">
                 {product.sizes.map((s) => (
                   <button key={s} onClick={() => setSelectedSize(s)}
-                    className={`min-w-[40px] h-10 px-3 rounded-xl border-2 text-[11px] font-bold transition-all duration-300 ${
+                    className={`min-w-[50px] h-12 px-4 rounded-xl border-2 text-xs font-black transition-all duration-500 ${
                       selectedSize === s 
-                        ? "bg-primary text-white border-primary shadow-lg shadow-primary/20 scale-105" 
-                        : "bg-white border-border text-text-light hover:border-primary hover:text-primary"
+                        ? "bg-primary text-black border-primary shadow-[0_0_20px_rgba(212,175,55,0.3)] scale-110" 
+                        : "bg-bg-card border-border text-text-light hover:border-primary/50 hover:text-primary"
                     }`}>
                     {s}
                   </button>
@@ -160,20 +175,20 @@ export default function ProductDetail({ product }: ProductDetailProps) {
 
           {/* Colors */}
           {product.colors && product.colors.length > 0 && (
-            <div>
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-sm font-bold text-accent uppercase tracking-wider">
-                  Color: <span className="text-primary">{selectedColor || "Select One"}</span>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <p className="text-xs font-black text-text-light uppercase tracking-[0.2em]">
+                  Color: <span className="text-primary">{selectedColor || "Choose"}</span>
                 </p>
-                {!selectedColor && <span className="text-[10px] font-black text-primary animate-pulse">REQUIRED *</span>}
+                {!selectedColor && <span className="text-[10px] font-black text-primary animate-pulse tracking-widest">REQUIRED *</span>}
               </div>
-              <div className="flex gap-2 flex-wrap">
+              <div className="flex gap-3 flex-wrap">
                 {product.colors.map((c) => (
                   <button key={c} onClick={() => setSelectedColor(c)}
-                    className={`h-10 px-4 rounded-xl border-2 text-[11px] font-bold transition-all duration-300 ${
+                    className={`h-12 px-6 rounded-xl border-2 text-xs font-black transition-all duration-500 ${
                       selectedColor === c 
-                        ? "bg-accent text-white border-accent shadow-lg shadow-accent/20 scale-105" 
-                        : "bg-white border-border text-text-light hover:border-accent hover:text-accent"
+                        ? "bg-white text-black border-white shadow-[0_0_20px_rgba(255,255,255,0.2)] scale-110" 
+                        : "bg-bg-card border-border text-text-light hover:border-white/50 hover:text-white"
                     }`}>
                     {c}
                   </button>
@@ -183,40 +198,47 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           )}
 
           {/* Quantity + Actions */}
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center border border-border rounded-xl">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="p-3"><Minus size={16} /></button>
-                <span className="px-4 font-medium">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="p-3"><Plus size={16} /></button>
+          <div className="flex flex-col gap-6 pt-4">
+            <div className="flex items-center gap-6">
+              <div className="flex items-center bg-bg-card border border-border rounded-2xl overflow-hidden h-14">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-14 h-full flex items-center justify-center hover:bg-white/5 transition-colors"><Minus size={18} /></button>
+                <span className="w-12 text-center font-black text-lg">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="w-14 h-full flex items-center justify-center hover:bg-white/5 transition-colors"><Plus size={18} /></button>
               </div>
-              <button onClick={toggleWishlist} className={`p-3 border rounded-xl transition-colors ml-auto ${inWishlist ? 'border-primary bg-primary text-white' : 'border-border hover:border-primary'}`}>
-                <Heart size={20} fill={inWishlist ? "currentColor" : "none"} />
+              <button onClick={toggleWishlist} className={`h-14 w-14 rounded-2xl flex items-center justify-center border-2 transition-all duration-500 ${inWishlist ? 'border-primary bg-primary text-black' : 'border-border hover:border-primary text-text-light hover:text-primary'}`}>
+                <Heart size={24} fill={inWishlist ? "currentColor" : "none"} strokeWidth={2.5} />
               </button>
             </div>
             
-            <div className="flex gap-3 mt-2">
-              <button onClick={addToCart} className="flex-1 py-3 rounded-xl border-2 border-primary text-primary font-bold hover:bg-primary/5 transition-colors flex items-center justify-center gap-2 text-[10px] uppercase tracking-widest">
-                <ShoppingBag size={16} /> Add to Bag
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <button onClick={addToCart} className="h-14 rounded-2xl border-2 border-primary text-primary font-black hover:bg-primary hover:text-black transition-all duration-500 flex items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] group">
+                <ShoppingBag size={20} className="group-hover:scale-110 transition-transform" /> Add to Bag
               </button>
-              <button onClick={buyNow} className="flex-1 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark transition-colors shadow-lg hover:shadow-primary/30 flex items-center justify-center text-[10px] uppercase tracking-widest">
+              <button onClick={buyNow} className="h-14 rounded-2xl bg-primary text-black font-black hover:bg-white transition-all duration-500 shadow-[0_0_30px_rgba(212,175,55,0.2)] flex items-center justify-center text-xs uppercase tracking-[0.2em] group">
                 Buy It Now
               </button>
             </div>
           </div>
 
           {/* Trust */}
-          <div className="grid grid-cols-3 gap-3 pt-4 border-t border-border">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-border">
             {[
-              { icon: Truck, text: "Free Delivery" },
-              { icon: RotateCcw, text: "Easy Returns" },
-              { icon: Shield, text: "Quality Assured" },
+              { icon: Truck, text: "Express Shipping", sub: "Worldwide delivery" },
+              { icon: RotateCcw, text: "7 Days Returns", sub: "Hassle free policy" },
+              { icon: Shield, text: "Secure Payment", sub: "100% encrypted" },
             ].map((t, i) => (
-              <div key={i} className="flex items-center gap-2 text-xs text-text-light">
-                <t.icon size={16} className="text-primary" /> {t.text}
+              <div key={i} className="flex items-center gap-4 p-4 rounded-2xl bg-bg-card border border-border/50">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                  <t.icon size={20} className="text-primary" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text">{t.text}</p>
+                  <p className="text-[9px] text-text-light/60">{t.sub}</p>
+                </div>
               </div>
             ))}
           </div>
+
         </div>
       </div>
     </div>

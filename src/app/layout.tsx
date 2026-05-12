@@ -5,6 +5,7 @@ import { CartProvider } from "@/lib/cart";
 import { Toaster } from "react-hot-toast";
 
 import { WishlistProvider } from "@/lib/wishlist";
+import LoadingBar from "@/components/LoadingBar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
@@ -22,11 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
+        <LoadingBar />
         <CartProvider>
           <WishlistProvider>
             {children}
             <Toaster position="bottom-right" toastOptions={{
-              style: { background: "#4a302d", color: "#fff", borderRadius: "12px" },
+              style: { background: "#141414", color: "#fff", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.1)" },
             }} />
           </WishlistProvider>
         </CartProvider>
@@ -34,3 +36,4 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
