@@ -88,83 +88,91 @@ export default function AdminOrders() {
   );
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="font-heading text-2xl font-bold">Orders Management</h1>
-        <div className="relative w-full md:w-80">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-light" size={18} />
+    <div className="animate-fade-in">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
+        <div>
+          <h1 className="font-heading text-4xl md:text-5xl font-black text-white mb-2 tracking-tight">Order Log</h1>
+          <p className="text-text-light font-medium uppercase tracking-widest text-[10px] opacity-60">Monitor and manage your luxury deliveries</p>
+        </div>
+        <div className="relative w-full sm:w-80 group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors" size={18} strokeWidth={3} />
           <input 
             type="text" 
-            placeholder="Search name, phone, or order #" 
+            placeholder="Search Reference, Customer..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-xl border border-border focus:outline-none focus:border-primary"
+            className="w-full bg-white/5 pl-12 pr-6 py-4 rounded-2xl border border-white/10 focus:border-primary outline-none transition-all text-white text-[11px] font-black uppercase tracking-widest placeholder:text-white/10 shadow-2xl"
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm">
+      <div className="bg-bg-card rounded-[2.5rem] border border-white/5 overflow-hidden shadow-2xl">
         <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left">
+          <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-bg border-b border-border text-accent font-semibold">
-                <th className="p-4 w-12">S#</th>
-                <th className="p-4">Order Details</th>
-                <th className="p-4">Customer</th>
-                <th className="p-4">Total</th>
-                <th className="p-4">Status</th>
-                <th className="p-4 text-right">Actions</th>
+              <tr className="border-b border-white/5 text-[10px] font-black text-text-light uppercase tracking-widest">
+                <th className="p-8 w-12 opacity-30">#</th>
+                <th className="p-8">Reference</th>
+                <th className="p-8">Customer</th>
+                <th className="p-8">Investment</th>
+                <th className="p-8 text-center">Status</th>
+                <th className="p-8 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-border">
+            <tbody className="text-sm">
               {loading ? (
-                <tr><td colSpan={6} className="p-8 text-center text-text-light">Loading orders...</td></tr>
+                <tr><td colSpan={6} className="p-20 text-center text-[10px] font-black uppercase tracking-widest text-text-light opacity-40">Analyzing ledger...</td></tr>
               ) : filteredOrders.length === 0 ? (
-                <tr><td colSpan={6} className="p-8 text-center text-text-light">No orders found</td></tr>
+                <tr><td colSpan={6} className="p-20 text-center text-[10px] font-black uppercase tracking-widest text-text-light opacity-40">No entries found</td></tr>
               ) : (
                 filteredOrders.map((o, idx) => (
-                  <tr key={o.id} className="hover:bg-bg/50 transition-colors">
-                    <td className="p-4 font-bold text-text-light">{idx + 1}</td>
-                    <td className="p-4">
-                      <p className="font-mono text-xs font-bold text-accent mb-1">{o.orderNumber}</p>
-                      <p className="text-xs text-text-light">{new Date(o.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                  <tr key={o.id} className="border-b border-white/5 hover:bg-white/5 transition-all group">
+                    <td className="p-8 font-black text-text-light opacity-30 text-[10px]">{idx + 1}</td>
+                    <td className="p-8">
+                      <p className="font-mono text-[11px] font-black text-primary uppercase tracking-tighter mb-1">{o.orderNumber}</p>
+                      <p className="text-[10px] font-black text-text-light opacity-40 uppercase tracking-widest">{new Date(o.createdAt).toLocaleDateString([], { month: 'short', day: 'numeric' })}</p>
                     </td>
-                    <td className="p-4">
-                      <p className="font-semibold text-accent">{o.customerName}</p>
-                      <p className="text-xs text-text-light">{o.customerPhone}</p>
+                    <td className="p-8">
+                      <p className="font-black text-white uppercase text-[11px] tracking-widest mb-1 group-hover:text-primary transition-colors">{o.customerName}</p>
+                      <p className="text-[10px] text-text-light opacity-50 font-medium">{o.customerPhone}</p>
                     </td>
-                    <td className="p-4">
-                      <p className="font-bold text-primary">{formatPrice(parseFloat(o.totalAmount))}</p>
-                      <p className="text-[10px] text-text-light uppercase">{o.paymentMethod}</p>
+                    <td className="p-8">
+                      <p className="font-black text-white text-base">{formatPrice(parseFloat(o.totalAmount))}</p>
+                      <p className="text-[9px] font-black text-primary uppercase tracking-widest opacity-60">{o.paymentMethod}</p>
                     </td>
-                    <td className="p-4">
-                      <select
-                        value={o.status}
-                        onChange={(e) => handleStatusChange(o.id, e.target.value, o.trackingId)}
-                        className={`text-xs px-3 py-1.5 rounded-full border font-bold outline-none cursor-pointer ${
-                          o.status === "pending" ? "bg-yellow-50 text-yellow-700 border-yellow-200" :
-                          o.status === "confirmed" ? "bg-blue-50 text-blue-700 border-blue-200" :
-                          o.status === "shipped" ? "bg-purple-50 text-purple-700 border-purple-200" :
-                          o.status === "delivered" ? "bg-green-50 text-green-700 border-green-200" :
-                          "bg-red-50 text-red-700 border-red-200"
-                        }`}
-                      >
-                        <option value="pending">Pending</option>
-                        <option value="confirmed">Confirmed</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
-                        <option value="cancelled">Cancelled</option>
-                      </select>
+                    <td className="p-8 text-center">
+                      <div className="relative inline-block">
+                        <select
+                          value={o.status}
+                          onChange={(e) => handleStatusChange(o.id, e.target.value, o.trackingId)}
+                          className={`text-[9px] px-5 py-2 rounded-xl border font-black uppercase tracking-widest outline-none cursor-pointer appearance-none transition-all ${
+                            o.status === "pending" ? "bg-yellow-500/10 text-yellow-500 border-yellow-500/20" :
+                            o.status === "confirmed" ? "bg-blue-500/10 text-blue-500 border-blue-500/20" :
+                            o.status === "shipped" ? "bg-purple-500/10 text-purple-500 border-purple-200" :
+                            o.status === "delivered" ? "bg-green-500/10 text-green-500 border-green-500/20" :
+                            "bg-red-500/10 text-red-500 border-red-500/20"
+                          }`}
+                        >
+                          <option value="pending" className="bg-bg-card">Pending</option>
+                          <option value="confirmed" className="bg-bg-card">Confirmed</option>
+                          <option value="shipped" className="bg-bg-card">Shipped</option>
+                          <option value="delivered" className="bg-bg-card">Delivered</option>
+                          <option value="cancelled" className="bg-bg-card">Cancelled</option>
+                        </select>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none opacity-40">
+                          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                      </div>
                       {o.trackingId && (
-                        <p className="text-[10px] text-primary mt-1 font-mono">ID: {o.trackingId}</p>
+                        <p className="text-[9px] text-primary mt-2 font-mono font-black uppercase opacity-60">ID: {o.trackingId}</p>
                       )}
                     </td>
-                    <td className="p-4 text-right">
+                    <td className="p-8 text-right">
                       <button 
                         onClick={() => setSelectedOrder(o)}
-                        className="p-2 hover:bg-primary-light rounded-lg text-primary transition-colors inline-flex items-center gap-1 text-xs font-medium"
+                        className="h-10 px-5 bg-white/5 border border-white/10 hover:border-primary hover:text-primary rounded-xl text-white transition-all inline-flex items-center gap-3 text-[10px] font-black uppercase tracking-widest"
                       >
-                        <Eye size={16} /> View Details
+                        <Eye size={16} strokeWidth={2.5} /> Inspect
                       </button>
                     </td>
                   </tr>
@@ -177,62 +185,84 @@ export default function AdminOrders() {
 
       {/* Order Details Modal */}
       {selectedOrder && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl animate-fade-in-up">
-            <div className="sticky top-0 bg-white border-b border-border p-6 flex justify-between items-center z-10">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4">
+          <div className="bg-bg-card rounded-[3rem] border border-white/10 max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-[0_0_100px_rgba(0,0,0,0.5)] animate-fade-in-up custom-scrollbar">
+            <div className="sticky top-0 bg-bg-card/95 backdrop-blur-md border-b border-white/5 p-10 flex justify-between items-center z-10">
               <div>
-                <h2 className="text-xl font-bold font-heading text-accent">Order #{selectedOrder.orderNumber}</h2>
-                <p className="text-xs text-text-light">{new Date(selectedOrder.createdAt).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' })}</p>
+                <p className="text-[10px] font-black text-primary uppercase tracking-[0.3em] mb-2">Masterpiece Archive</p>
+                <h2 className="text-4xl font-black font-heading text-white tracking-tight">Order {selectedOrder.orderNumber}</h2>
               </div>
-              <button onClick={() => setSelectedOrder(null)} className="p-2 hover:bg-bg rounded-full transition-colors">
-                <X size={20} />
+              <button onClick={() => setSelectedOrder(null)} className="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-full flex items-center justify-center transition-all border border-white/10">
+                <X size={20} strokeWidth={2.5} />
               </button>
             </div>
             
-            <div className="p-6 space-y-8">
+            <div className="p-10 space-y-12">
               {/* Customer Info */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Customer Details</h3>
-                  <div className="space-y-2 text-sm">
-                    <p><span className="text-text-light">Name:</span> <span className="font-medium">{selectedOrder.customerName}</span></p>
-                    <p><span className="text-text-light">Phone:</span> <span className="font-medium">{selectedOrder.customerPhone}</span></p>
-                    {selectedOrder.customerEmail && (
-                      <p><span className="text-text-light">Email:</span> <span className="font-medium">{selectedOrder.customerEmail}</span></p>
-                    )}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/5">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8 block">Customer Identification</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">Name</p>
+                      <p className="font-black text-white text-lg uppercase tracking-widest">{selectedOrder.customerName}</p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                      <div>
+                        <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">Communication</p>
+                        <p className="font-bold text-white text-sm">{selectedOrder.customerPhone}</p>
+                      </div>
+                      {selectedOrder.customerEmail && (
+                        <div>
+                          <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">Digital Mail</p>
+                          <p className="font-bold text-white text-sm truncate">{selectedOrder.customerEmail}</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-4">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Shipping Address</h3>
-                  <div className="space-y-2 text-sm">
-                    <p className="font-medium leading-relaxed">{selectedOrder.shippingAddress}</p>
-                    <p><span className="text-text-light">City:</span> <span className="font-medium">{selectedOrder.city}</span></p>
-                    {selectedOrder.postalCode && (
-                      <p><span className="text-text-light">Postal Code:</span> <span className="font-medium">{selectedOrder.postalCode}</span></p>
-                    )}
+                <div className="p-8 rounded-[2.5rem] bg-white/5 border border-white/5">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8 block">Destination Gallery</h3>
+                  <div className="space-y-4">
+                     <div>
+                        <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">Address</p>
+                        <p className="font-bold text-white text-sm leading-relaxed">{selectedOrder.shippingAddress}</p>
+                     </div>
+                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-white/5">
+                        <div>
+                          <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">City</p>
+                          <p className="font-black text-white text-sm uppercase tracking-widest">{selectedOrder.city}</p>
+                        </div>
+                        {selectedOrder.postalCode && (
+                          <div>
+                            <p className="text-[9px] font-black text-text-light uppercase tracking-widest opacity-40 mb-1">Region Code</p>
+                            <p className="font-bold text-white text-sm">{selectedOrder.postalCode}</p>
+                          </div>
+                        )}
+                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Items */}
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold uppercase tracking-wider text-primary">Ordered Items</h3>
-                <div className="space-y-3">
+              <div>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-8 block px-2">Manifested Designs</h3>
+                <div className="grid grid-cols-1 gap-4">
                   {selectedOrder.items.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-4 p-3 rounded-2xl bg-bg/50 border border-border/50">
-                      <div className="relative w-16 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        <Image src={item.image} alt={item.name} fill className="object-cover" />
+                    <div key={idx} className="flex items-center gap-8 p-6 rounded-3xl bg-white/5 border border-white/5 hover:border-white/10 transition-colors group">
+                      <div className="relative w-20 h-24 rounded-2xl overflow-hidden flex-shrink-0 border border-white/10 group-hover:border-primary transition-all">
+                        <Image src={item.image} alt={item.name} fill className="object-cover group-hover:scale-125 transition-transform duration-[2000ms]" />
                       </div>
-                      <div className="flex-1">
-                        <h4 className="text-sm font-bold text-accent">{item.name}</h4>
-                        <div className="flex gap-2 mt-1.5">
-                          <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded font-bold uppercase tracking-tighter">Size: {item.size}</span>
-                          <span className="text-[10px] bg-accent/10 text-accent px-2 py-0.5 rounded font-bold uppercase tracking-tighter">Color: {item.color}</span>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-[11px] font-black text-white uppercase tracking-[0.2em] mb-2 group-hover:text-primary transition-colors">{item.name}</h4>
+                        <div className="flex gap-3 mt-3">
+                          <span className="text-[9px] bg-white/5 text-white/60 border border-white/10 px-4 py-1.5 rounded-full font-black uppercase tracking-widest">Size: {item.size}</span>
+                          <span className="text-[9px] bg-white/5 text-white/60 border border-white/10 px-4 py-1.5 rounded-full font-black uppercase tracking-widest">Color: {item.color}</span>
                         </div>
-                        <p className="text-xs mt-2 font-medium text-text-light">{item.quantity} x {formatPrice(item.price)}</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-bold text-primary">{formatPrice(item.price * item.quantity)}</p>
+                      <div className="text-right flex flex-col items-end gap-1">
+                        <p className="text-[10px] font-black text-text-light uppercase tracking-widest opacity-40">{item.quantity} Unit(s)</p>
+                        <p className="text-lg font-black text-white">{formatPrice(item.price * item.quantity)}</p>
                       </div>
                     </div>
                   ))}
@@ -240,37 +270,44 @@ export default function AdminOrders() {
               </div>
 
               {/* Summary */}
-              <div className="bg-accent text-white rounded-2xl p-6 flex justify-between items-center">
-                <div>
-                  <p className="text-xs opacity-70 uppercase tracking-widest mb-1">Total Amount</p>
-                  <p className="text-2xl font-bold font-heading">{formatPrice(parseFloat(selectedOrder.totalAmount))}</p>
+              <div className="bg-primary rounded-[3rem] p-10 flex flex-col sm:flex-row justify-between items-center gap-8 shadow-[0_0_50px_rgba(212,175,55,0.3)]">
+                <div className="text-center sm:text-left">
+                  <p className="text-[10px] font-black text-black uppercase tracking-[0.3em] mb-2 opacity-60">Total Investment</p>
+                  <p className="text-5xl font-black font-heading text-black tracking-tighter">{formatPrice(parseFloat(selectedOrder.totalAmount))}</p>
                 </div>
-                <div className="text-right">
-                  <p className="text-xs opacity-70 uppercase tracking-widest mb-1">Payment</p>
-                  <p className="font-bold uppercase tracking-widest">{selectedOrder.paymentMethod}</p>
+                <div className="text-center sm:text-right px-10 py-4 bg-black/10 rounded-[2rem] border border-black/10">
+                  <p className="text-[10px] font-black text-black uppercase tracking-[0.3em] mb-2 opacity-60">Settlement Method</p>
+                  <p className="font-black text-black uppercase tracking-widest text-lg">{selectedOrder.paymentMethod}</p>
                 </div>
               </div>
 
-              {selectedOrder.notes && (
-                <div className="p-4 bg-yellow-50 rounded-2xl border border-yellow-100">
-                  <p className="text-xs font-bold text-yellow-800 uppercase mb-1">Customer Notes:</p>
-                  <p className="text-sm text-yellow-900 italic">{selectedOrder.notes}</p>
-                </div>
-              )}
-
-              {selectedOrder.trackingId && (
-                <div className="p-4 bg-purple-50 rounded-2xl border border-purple-100 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-purple-800">
-                    <Truck size={18} />
-                    <span className="text-xs font-bold uppercase">Tracking ID</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {selectedOrder.notes && (
+                  <div className="p-8 bg-yellow-500/10 rounded-[2.5rem] border border-yellow-500/20">
+                    <p className="text-[9px] font-black text-yellow-500 uppercase tracking-widest mb-4">Customer Notes</p>
+                    <p className="text-sm text-yellow-500 font-medium italic leading-relaxed">&ldquo;{selectedOrder.notes}&rdquo;</p>
                   </div>
-                  <span className="font-mono font-bold text-purple-900">{selectedOrder.trackingId}</span>
-                </div>
-              )}
+                )}
+
+                {selectedOrder.trackingId && (
+                  <div className="p-8 bg-purple-500/10 rounded-[2.5rem] border border-purple-500/20 flex items-center justify-between">
+                    <div className="flex items-center gap-4 text-purple-500">
+                      <div className="w-12 h-12 rounded-2xl bg-purple-500/20 flex items-center justify-center">
+                         <Truck size={24} />
+                      </div>
+                      <div>
+                         <p className="text-[9px] font-black uppercase tracking-widest">Tracking Reference</p>
+                         <p className="font-mono font-black text-white text-lg tracking-widest">{selectedOrder.trackingId}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
       )}
     </div>
+
   );
 }
