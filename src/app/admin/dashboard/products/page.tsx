@@ -135,6 +135,7 @@ export default function AdminProducts() {
     }
   };
 
+  return (
     <div className="animate-fade-in">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
         <div>
