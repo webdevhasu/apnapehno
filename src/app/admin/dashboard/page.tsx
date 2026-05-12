@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { isAuthenticated } from "@/lib/auth";
 import { formatPrice } from "@/lib/utils";
 import { ShoppingCart, Package, FolderOpen, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const authed = await isAuthenticated();
