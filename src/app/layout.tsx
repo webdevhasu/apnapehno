@@ -6,6 +6,7 @@ import { Toaster } from "react-hot-toast";
 
 import { WishlistProvider } from "@/lib/wishlist";
 import LoadingBar from "@/components/LoadingBar";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable} antialiased`}>
-        <LoadingBar />
+        <Suspense fallback={null}>
+          <LoadingBar />
+        </Suspense>
         <CartProvider>
           <WishlistProvider>
             {children}
